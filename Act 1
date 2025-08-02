@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Clase base
+class Empleado {
+protected:
+    string nombre;
+    int edad;
+    string curp;
+    string puesto;
+
+public:
+    Empleado(string _nombre, int _edad, string _curp, string _puesto)
+        : nombre(_nombre), edad(_edad), curp(_curp), puesto(_puesto) {}
+
+    virtual void mostrarInformacion() {
+        cout << "\n--- Datos del Empleado ---" << endl;
+        cout << "Nombre: " << nombre << endl;
+        cout << "Edad: " << edad << " años" << endl;
+        cout << "CURP: " << curp << endl;
+        cout << "Puesto: " << puesto << endl;
+        if (edad >= 18) {
+            cout << "Estado: Mayor de edad." << endl;
+        } else {
+            cout << "Estado: Menor de edad." << endl;
+        }
+    }
+};
+
+// Clase derivada: Empleado de tiempo completo
+class EmpleadoTiempoCompleto : public Empleado {
+public:
+    EmpleadoTiempoCompleto(string _nombre, int _edad, string _curp)
+        : Empleado(_nombre, _edad, _curp, "Tiempo Completo") {}
+};
+
+// Clase derivada: Empleado de medio tiempo
+class EmpleadoMedioTiempo : public Empleado {
+public:
+    EmpleadoMedioTiempo(string _nombre, int _edad, string _curp)
+        : Empleado(_nombre, _edad, _curp, "Medio Tiempo") {}
+};
+
+int main() {
+    string nombre, curp, tipoEmpleado;
+    int edad;
+
+    cout << "Ingrese el nombre del empleado: ";
+    getline(cin, nombre);
+
+    cout << "Ingrese la edad del empleado: ";
+    cin >> edad;
+    cin.ignore();  // Limpiar el buffer
+
+    cout << "Ingrese el CURP del empleado: ";
+    getline(cin, curp);
+
+    cout << "Tipo de empleado (1: Tiempo Completo, 2: Medio Tiempo): ";
+    getline(cin, tipoEmpleado);
+
+    // Crear objeto según el tipo de empleado
+    if (tipoEmpleado == "1") {
+        EmpleadoTiempoCompleto emp(nombre, edad, curp);
+        emp.mostrarInformacion();
+    } else if (tipoEmpleado == "2") {
+        EmpleadoMedioTiempo emp(nombre, edad, curp);
+        emp.mostrarInformacion();
+    } else {
+        cout << "Tipo de empleado no válido." << endl;
+    }
+
+    return 0;
+}
